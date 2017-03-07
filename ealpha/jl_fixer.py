@@ -8,10 +8,15 @@ import os
 def _fix_record(record):
     """Fix input record with missing quote"""
     try:
-        result = re.sub(r"\"reg_price\":\s+?(\d+(\.\d+)?)?\s*?\"\s*?,", r'"reg_price": \1,', record)
+        result = re.sub(r"\"reg_price\":\s+?(\d+(\.\d+)?)?\s*?\"\s*?,", r'"reg_price":"\1",', record)
     # TODO: Import correct exception
     except Exception as e:
-        result = re.sub(r"\"reg_price\":\s+?(\d+(\.\d+)?)?\s*?\"\s*?,", r'"reg_price": 0,', record)
+        result = re.sub(r"\"reg_price\":\s+?(\d+(\.\d+)?)?\s*?\"\s*?,", r'"reg_price":"0",', record)
+    try:
+        result = re.sub(r"\"price\":\s+?(\d+(\.\d+)?)?\s*?\"\s*?,", r'"price":"\1",', result)
+    # TODO: Import correct exception
+    except Exception as e:
+        result = re.sub(r"\"price\":\s+?(\d+(\.\d+)?)?\s*?\"\s*?,", r'"price":"0",', result)
     return result
 
 def process_files(inputdir, outputdir):

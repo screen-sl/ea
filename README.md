@@ -108,10 +108,13 @@ in the 20170131 folder the file is called 20170131-bestbuy.jl
 
 Step 5: Write a query to return all rows from all files that have a “quarter” of “2016-Q4”
 
-```ealpha query-drill --query 'CREATE TABLE `s3`.`write`.`20170131/20170131-bestbuy.jl` AS SELECT * FROM `s3`.`read`.`20170131/20170131-bestbuy.jl` LIMIT 10'```
+```ealpha query-drill --query 'CREATE TABLE s3.`write`.`2016Q4` AS SELECT * FROM `s3`.`read`.`20161*/*.jl`'```
 
 ## Part 6
 
 Step 6: Export the results of Step 5 into a JSONLines table.
 
 
+# Gotchas
+Ensure that there is an object with the desired key prefix for the schemas referenced in the S3 plugin 
+otherwise you will get errors when you attempt to write to it. 

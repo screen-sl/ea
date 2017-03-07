@@ -126,6 +126,7 @@ def setup_drill():
     """Configure Drill Options"""
     _query_drill("ALTER SYSTEM SET `store.format`='jsonlines'")
     _query_drill("ALTER SYSTEM SET `store.json.read_numbers_as_double` = true")
+    _query_drill("ALTER SYSTEM SET `store.json.all_text_mode` = false")
 
 
 @cli.command('fix-malformed-jl')
@@ -139,23 +140,23 @@ def fix_malformed_jl(inputdir, outputdir):
     process_files(inputdir, outputdir)
 """
 Cols:
-sku, 
-reg_price,
-crawl_date, 
-blank_price, 
-category,
-title, 
-page_position, 
-brand, 
-clock, 
-publisher, 
-colour, 
-sort_by, 
-price,
-platform, 
-product_link_listing, 
-product_link, 
-model, 
-quarter, 
-product_name
+CAST(sku  as VARCHAR(30)), 
+CAST(reg_price as VARCHAR(30)), 
+CAST(crawl_date as VARCHAR(30)),  
+CAST(blank_price as VARCHAR(30)), 
+CAST(category as VARCHAR(30)), 
+CAST(title as VARCHAR(30)), 
+CAST(page_position as VARCHAR(30)), 
+CAST(brand as VARCHAR(30)), 
+CAST(clock as VARCHAR(30)),
+CAST(publisher as VARCHAR(30)), 
+CAST(colour as VARCHAR(30)), 
+CAST(sort_by as VARCHAR(30)), 
+CAST(price as VARCHAR(30)), 
+CAST(platform as VARCHAR(30)), 
+CAST(product_link_listing as VARCHAR(30)), 
+CAST(product_link as VARCHAR(30)), 
+CAST(model as VARCHAR(30)), 
+CAST(quarter as VARCHAR(30)), 
+CAST(product_name as VARCHAR(30))
 """
