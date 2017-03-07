@@ -1,0 +1,30 @@
+# Base container for development and testing
+devbase:
+    build: .
+    dockerfile: Dockerfile
+    restart: "no"
+    env_file:
+      - docker-env/PRIVATE.txt
+    volumes:
+      - ./ealpha:/code/ealpha
+      - ./data:/code/data
+      - ./data-fixed:/code/data-fixed
+
+# Container for running in development mode
+dev:
+    extends: devbase
+    restart: "no"
+    links: 
+      - drill
+
+# Apache Drill Container
+drill:
+    build: .
+    dockerfile: Dockerfile.drill
+    restart: "no"
+    env_file:
+      - docker-env/PRIVATE.txt
+    volumes: 
+      - ./docker/drill/core-site.xml:/opt/drill/apache-drill-1.9.0/conf/core-site.xml
+    ports:
+      - "8047:8047"

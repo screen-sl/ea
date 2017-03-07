@@ -1,0 +1,49 @@
+# --------------------- Base image -------------------------------------------
+
+FROM centos:7
+MAINTAINER lewissg@tcd.ie
+
+# --------------------- Config Env -------------------------------------------
+
+ENV JAVA_URL=http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.rpm
+ENV DRILL_VERSION=1.9.0
+ENV JAVA_HOME=/usr/java/jdk1.8.0_121/bin
+
+# --------------------- Install System Packagses -----------------------------------
+
+RUN yum -y install wget screen
+
+# --------------------- Create User and Home Dir -----------------------------
+
+RUN useradd -m drill -d /code
+WORKDIR /code
+
+# --------------------- Download and Install JDK -----------------------------------------
+
+RUN wget --no-cookies --no-check-certificate \
+  --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+   $JAVA_URL && rpm -i jdk-8u121-linux-x64.rpm && rm jdk-8u121-linux-x64.rpm
+
+# --------------------- Download and Apache Drill -----------------------------------------
+
+RUN wget http://www-us.apache.org/dist/drill/drill-$DRILL_VERSION/apache-drill-$DRILL_VERSION.tar.gz && \
+    mkdir -p /opt/drill && \
+    tar -xvzf apache-drill-$DRILL_VERSION.tar.gz -C /opt/drill && \
+    rm apache-drill-$DRILL_VERSION.tar.gz
+
+# --------------------- Installl PIP and AWSCLI -----------------------------------------
+
+RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && \
+    python get-pip.py && \
+    rm get-pip.py
+
+RUN pip install awscli
+
+# --------------------- Entrypoint Set up -----------------------------------------
+
+ADD docker/drill/entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+
+EXPOSE 8047
+
+ENTRYPOINT ["/code/entrypoint.sh"]
