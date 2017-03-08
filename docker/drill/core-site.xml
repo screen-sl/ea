@@ -1,0 +1,16 @@
+<property>
+  <name>fs.s3.endpoint</name>
+  <value>s3-eu-west-1.amazonaws.com</value>
+</property>
+
+<property>
+  <name>fs.s3a.access.key</name>
+  <value>xxxxxxxx</value>
+</property>
+
+<property>
+  <name>fs.s3a.secret.key</name>
+  <value>xxxxx</value>
+</property>
+
+</configuration>
