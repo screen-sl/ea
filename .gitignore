@@ -96,6 +96,6 @@ docker/aws/config
 docker/drill/core-site.xml
 
 # Data
-data/*
-data-fixed/*
+# data/*
+# data-fixed/*
 
